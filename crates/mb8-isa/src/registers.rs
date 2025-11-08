@@ -1,7 +1,7 @@
 //! Register definitions for the MB8 VM.
 
 /// List of registers supported by the MB8 VM.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Register {
     /// General-purpose register 0
     R0,
@@ -11,10 +11,10 @@ pub enum Register {
     R2,
     /// General-purpose register 3
     R3,
-    /// Flag register
-    F,
-    /// Program counter
-    PC,
     /// Stack pointer
     SP,
+    /// Program counter
+    PC,
+    /// Flag register
+    F,
 }

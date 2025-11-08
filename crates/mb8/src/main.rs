@@ -1,3 +1,5 @@
+mod ops;
+mod parser;
 mod registers;
 mod vm;
 
