@@ -1,8 +1,6 @@
-use mb8_isa::{opcodes::Opcode, registers::Register};
+use mb8_isa::{decode::decode, opcodes::Opcode, registers::Register, MEMORY_SIZE};
 
-use crate::{parser::parse, registers::Registers};
-
-const MEMORY_SIZE: usize = 4096;
+use crate::registers::Registers;
 
 /// MB8 Virtual Machine
 #[derive(Debug)]
@@ -54,7 +52,7 @@ impl VirtualMachine {
         }
 
         let binary_instruction = [self.mem[pc as usize], self.mem[pc as usize + 1]];
-        let Some(opcode) = parse(u16::from_be_bytes(binary_instruction)) else {
+        let Some(opcode) = decode(u16::from_be_bytes(binary_instruction)) else {
             self.halted = true;
             return;
         };
