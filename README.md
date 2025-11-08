@@ -36,6 +36,8 @@ Virtual machine contains the following registers:
     </tr>
 </table>
 
+Registers 0x08 - 0x0C are reserved for future use.
+
 ## Flags
 
 Virtual machine handles the following flags:
@@ -62,6 +64,8 @@ Virtual machine handles the following flags:
         <td>Carry flag. If the result of an operation is greater than 255, this flag is set. If the result of an operation is less than 0, this flag is set.</td>
     </tr>
 </table>
+
+Flags 0x08, 0x10, 0x20, 0x40, 0x80 are reserved for future use.
 
 ## Opcodes
 
@@ -117,5 +121,15 @@ Virtual machine handles the following opcodes:
         <td>JNZ addr</td>
         <td>0x5XXX</td>
         <td>Jump to XXX address if Flag register does not have zero flag</td>
+    </tr>
+    <tr>
+        <td>CALL addr</td>
+        <td>0x6XXX</td>
+        <td>Call subroutine at XXX address</td>
+    </tr>
+    <tr>
+        <td>RET</td>
+        <td>0x7000</td>
+        <td>Return from subroutine</td>
     </tr>
 </table>

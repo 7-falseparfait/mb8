@@ -1,5 +1,6 @@
 use mb8_isa::{encode::encode_program, opcodes::Opcode};
 
+mod mem;
 mod ops;
 mod registers;
 mod vm;

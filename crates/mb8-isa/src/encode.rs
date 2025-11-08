@@ -55,6 +55,16 @@ pub fn encode(opcode: &Opcode) -> u16 {
         Opcode::Jmp { addr } => 0x3000 | (*addr & 0xFFF),
         Opcode::Jz { addr } => 0x4000 | (*addr & 0xFFF),
         Opcode::Jnz { addr } => 0x5000 | (*addr & 0xFFF),
+        Opcode::Call { addr } => 0x6000 | (*addr & 0xFFF),
+        Opcode::Ret => 0x7000,
+        // Opcode::Push { src } => {
+        //     let src = encode_register(*src);
+        //     0x7000 | src as u16
+        // }
+        // Opcode::Pop { dst } => {
+        //     let dst = encode_register(*dst);
+        //     0x7000 | dst as u16
+        // }
     }
 }
 
@@ -150,5 +160,15 @@ mod tests {
     #[test]
     fn test_encode_jnz() {
         assert_eq!(encode(&Opcode::Jnz { addr: 0x123 }), 0x5123);
+    }
+
+    #[test]
+    fn test_encode_call() {
+        assert_eq!(encode(&Opcode::Call { addr: 0x123 }), 0x6123);
+    }
+
+    #[test]
+    fn test_encode_ret() {
+        assert_eq!(encode(&Opcode::Ret), 0x7000);
     }
 }

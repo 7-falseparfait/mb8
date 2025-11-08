@@ -71,6 +71,16 @@ pub fn decode(instruction: u16) -> Option<Opcode> {
         0x5 => Some(Opcode::Jnz {
             addr: (a << 8) | (b << 4) | c,
         }),
+        0x6 => Some(Opcode::Call {
+            addr: (a << 8) | (b << 4) | c,
+        }),
+        0x7 => {
+            // Stack operations
+            match a {
+                0x0 => Some(Opcode::Ret),
+                _ => None,
+            }
+        }
         _ => None,
     }
 }
@@ -160,5 +170,15 @@ mod tests {
     #[test]
     fn test_parse_jnz() {
         assert_eq!(decode(0x5123), Some(Opcode::Jnz { addr: 0x123 }));
+    }
+
+    #[test]
+    fn test_parse_call() {
+        assert_eq!(decode(0x6123), Some(Opcode::Call { addr: 0x123 }));
+    }
+
+    #[test]
+    fn test_parse_ret() {
+        assert_eq!(decode(0x7000), Some(Opcode::Ret));
     }
 }

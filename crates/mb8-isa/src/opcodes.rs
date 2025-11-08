@@ -48,4 +48,19 @@ pub enum Opcode {
     Jnz {
         addr: u16,
     },
+    /* Stack instructions */
+    /// Call subroutine at address `addr`.
+    Call {
+        addr: u16,
+    },
+    /// Return from subroutine.
+    Ret,
+    // /// Push value from register `src` onto stack.
+    // Push {
+    //     src: Register,
+    // },
+    // /// Pop value from stack into register `dst`.
+    // Pop {
+    //     dst: Register,
+    // },
 }

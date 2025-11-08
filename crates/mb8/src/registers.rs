@@ -1,10 +1,7 @@
-use mb8_isa::registers::Register;
-
-/// Represents the general purpose registers count of the CPU.
-const GENERAL_PURPOSE_REGISTERS_COUNT: usize = 8;
+use mb8_isa::{registers::Register, GENERAL_PURPOSE_REGISTERS_COUNT, STACK_SIZE};
 
 /// API for accessing and manipulating the registers.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Registers {
     /// General purpose registers.
     pub general_purpose: [u8; GENERAL_PURPOSE_REGISTERS_COUNT],
@@ -14,6 +11,17 @@ pub struct Registers {
     pub stack_pointer: u8,
     /// Flag register.
     pub flag: u8,
+}
+
+impl Default for Registers {
+    fn default() -> Self {
+        Self {
+            general_purpose: [0; GENERAL_PURPOSE_REGISTERS_COUNT],
+            program_counter: STACK_SIZE,
+            stack_pointer: 0,
+            flag: 0,
+        }
+    }
 }
 
 impl Registers {

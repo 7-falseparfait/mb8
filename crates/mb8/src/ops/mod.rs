@@ -1,4 +1,5 @@
 mod add;
+mod call;
 mod halt;
 mod jmp;
 mod jnz;
@@ -6,4 +7,5 @@ mod jz;
 mod ldi;
 mod mov;
 mod nop;
+mod ret;
 mod sub;

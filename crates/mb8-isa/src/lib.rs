@@ -5,3 +5,7 @@ pub mod registers;
 
 /// MB8 Machine memory size
 pub const MEMORY_SIZE: usize = 4096;
+/// MB8 Machine stack size
+pub const STACK_SIZE: u16 = 256;
+/// Represents the general purpose registers count of the CPU.
+pub const GENERAL_PURPOSE_REGISTERS_COUNT: usize = 8;

@@ -1,11 +1,11 @@
-use mb8_isa::{decode::decode, opcodes::Opcode, registers::Register, MEMORY_SIZE};
+use mb8_isa::{decode::decode, opcodes::Opcode, registers::Register, MEMORY_SIZE, STACK_SIZE};
 
-use crate::registers::Registers;
+use crate::{mem::Memory, registers::Registers};
 
 /// MB8 Virtual Machine
 #[derive(Debug)]
 pub struct VirtualMachine {
-    pub mem: Box<[u8; MEMORY_SIZE]>,
+    pub mem: Memory,
     pub registers: Registers,
     pub halted: bool,
 }
@@ -13,8 +13,7 @@ pub struct VirtualMachine {
 impl VirtualMachine {
     pub fn new() -> Self {
         Self {
-            #[allow(clippy::unwrap_used)]
-            mem: vec![0; MEMORY_SIZE].into_boxed_slice().try_into().unwrap(),
+            mem: Memory::default(),
             registers: Registers::default(),
             halted: false,
         }
@@ -23,7 +22,7 @@ impl VirtualMachine {
     /// Load memory into the virtual machine.
     pub fn load_memory(&mut self, data: &[u8]) {
         for (i, &byte) in data.iter().enumerate() {
-            self.mem[i] = byte;
+            self.mem.write_u8(i as u16 + STACK_SIZE, byte);
         }
     }
 
@@ -39,6 +38,8 @@ impl VirtualMachine {
             Opcode::Jmp { addr } => self.jmp(*addr),
             Opcode::Jz { addr } => self.jz(*addr),
             Opcode::Jnz { addr } => self.jnz(*addr),
+            Opcode::Call { addr } => self.call(*addr),
+            Opcode::Ret => self.ret(),
         }
     }
 
@@ -51,7 +52,7 @@ impl VirtualMachine {
             return;
         }
 
-        let binary_instruction = [self.mem[pc as usize], self.mem[pc as usize + 1]];
+        let binary_instruction = [self.mem.read_u8(pc), self.mem.read_u8(pc + 1)];
         let Some(opcode) = decode(u16::from_be_bytes(binary_instruction)) else {
             self.halted = true;
             return;
@@ -77,6 +78,6 @@ mod tests {
         let mut vm = VirtualMachine::new();
         vm.load_memory(&[0x00, 0x00, 0x01, 0x00]);
         vm.run();
-        assert_eq!(vm.registers.read(Register::PC), 4);
+        assert_eq!(vm.registers.read(Register::PC), STACK_SIZE as u16 + 4);
     }
 }
