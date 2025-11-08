@@ -2,7 +2,7 @@ use mb8_isa::{opcodes::Opcode, registers::Register};
 
 use crate::{parser::parse, registers::Registers};
 
-const MEMORY_SIZE: usize = 65536;
+const MEMORY_SIZE: usize = 4096;
 
 /// MB8 Virtual Machine
 #[derive(Debug)]
@@ -38,6 +38,9 @@ impl VirtualMachine {
             Opcode::Add { dst, src } => self.add(*dst, *src),
             Opcode::Sub { dst, src } => self.sub(*dst, *src),
             Opcode::Ldi { dst, value } => self.ldi(*dst, *value),
+            Opcode::Jmp { addr } => self.jmp(*addr),
+            Opcode::Jz { addr } => self.jz(*addr),
+            Opcode::Jnz { addr } => self.jnz(*addr),
         }
     }
 

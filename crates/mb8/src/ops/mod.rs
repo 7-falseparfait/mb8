@@ -1,5 +1,8 @@
 mod add;
 mod halt;
+mod jmp;
+mod jnz;
+mod jz;
 mod ldi;
 mod mov;
 mod nop;

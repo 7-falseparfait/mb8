@@ -8,19 +8,19 @@ impl VirtualMachine {
         let b = self.registers.read(src);
         let result = a + b;
 
-        let mut flags = 0;
+        let mut f_register = 0;
         if result == 0 {
-            flags |= flags::Z_FLAG;
+            f_register |= flags::Z_FLAG;
         }
         if result > 255 {
-            flags |= flags::C_FLAG;
+            f_register |= flags::C_FLAG;
         }
         if (result & 0x80) != 0 {
-            flags |= flags::N_FLAG;
+            f_register |= flags::N_FLAG;
         }
 
         self.registers.write(dst, result);
-        self.registers.write(Register::F, flags as u16);
+        self.registers.write(Register::F, f_register as u16);
     }
 }
 

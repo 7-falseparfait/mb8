@@ -34,4 +34,18 @@ pub enum Opcode {
         dst: Register,
         value: u8,
     },
+
+    /* Jump instructions */
+    /// Jump to address `addr`.
+    Jmp {
+        addr: u16,
+    },
+    /// Jump to address `addr` if flag register has zero flag
+    Jz {
+        addr: u16,
+    },
+    /// Jump to address `addr` if flag register does not have zero flag
+    Jnz {
+        addr: u16,
+    },
 }

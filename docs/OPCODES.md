@@ -34,4 +34,19 @@
         <td>0x2AXX</td>
         <td>Load immediate XX value into A register</td>
     </tr>
+    <tr>
+        <td>JMP addr</td>
+        <td>0x3XXX</td>
+        <td>Jump to XXX address</td>
+    </tr>
+    <tr>
+        <td>JZ addr</td>
+        <td>0x4XXX</td>
+        <td>Jump to XXX address if Flag register has zero flag</td>
+    </tr>
+    <tr>
+        <td>JNZ addr</td>
+        <td>0x5XXX</td>
+        <td>Jump to XXX address if Flag register does not have zero flag</td>
+    </tr>
 </table>

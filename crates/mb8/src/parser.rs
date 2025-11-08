@@ -58,6 +58,15 @@ pub fn parse(instruction: u16) -> Option<Opcode> {
             dst: parse_register(a)?,
             value: (b << 4 | c) as u8,
         }),
+        0x3 => Some(Opcode::Jmp {
+            addr: (a << 8) | (b << 4) | c,
+        }),
+        0x4 => Some(Opcode::Jz {
+            addr: (a << 8) | (b << 4) | c,
+        }),
+        0x5 => Some(Opcode::Jnz {
+            addr: (a << 8) | (b << 4) | c,
+        }),
         _ => None,
     }
 }
@@ -132,5 +141,20 @@ mod tests {
                 value: 0x69,
             })
         );
+    }
+
+    #[test]
+    fn test_parse_jmp() {
+        assert_eq!(parse(0x3123), Some(Opcode::Jmp { addr: 0x123 }));
+    }
+
+    #[test]
+    fn test_parse_jz() {
+        assert_eq!(parse(0x4123), Some(Opcode::Jz { addr: 0x123 }));
+    }
+
+    #[test]
+    fn test_parse_jnz() {
+        assert_eq!(parse(0x5123), Some(Opcode::Jnz { addr: 0x123 }));
     }
 }
