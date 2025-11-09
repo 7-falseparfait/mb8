@@ -82,7 +82,7 @@ mod tests {
         let mut vm = VirtualMachine::new();
         vm.load_memory(&[0x00, 0x00, 0x01, 0x00]);
         vm.run();
-        assert_eq!(vm.registers.read(Register::PC), STACK_SIZE as u16 + 4);
+        assert_eq!(vm.registers.read(Register::PC), STACK_SIZE + 4);
     }
 
     #[test]

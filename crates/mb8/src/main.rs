@@ -1,15 +1,15 @@
-use mb8_isa::{encode::encode_program, opcodes::Opcode};
-
 mod mem;
 mod ops;
 mod registers;
 mod vm;
 
-const DEFAULT_PROGRAM: &[Opcode] = &[Opcode::Nop, Opcode::Halt];
-
 fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let input_path = &args[1];
+    let source = std::fs::read(input_path).unwrap_or_default();
+
     let mut vm = vm::VirtualMachine::new();
 
-    vm.load_memory(&encode_program(DEFAULT_PROGRAM));
+    vm.load_memory(&source);
     vm.run();
 }
