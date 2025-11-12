@@ -38,6 +38,8 @@ impl VirtualMachine {
             Opcode::And { dst, src } => self.and(*dst, *src),
             Opcode::Or { dst, src } => self.or(*dst, *src),
             Opcode::Xor { dst, src } => self.xor(*dst, *src),
+            Opcode::Shr { dst, src } => self.shr(*dst, *src),
+            Opcode::Shl { dst, src } => self.shl(*dst, *src),
             Opcode::Ldi { dst, value } => self.ldi(*dst, *value),
             Opcode::Jmp { addr } => self.jmp(*addr),
             Opcode::Jz { addr } => self.jz(*addr),

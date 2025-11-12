@@ -77,6 +77,14 @@ pub fn decode(instruction: u16) -> Option<Opcode> {
                     dst: decode_register(b)?,
                     src: decode_register(c)?,
                 }),
+                0x6 => Some(Opcode::Shr {
+                    dst: decode_register(b)?,
+                    src: decode_register(c)?,
+                }),
+                0x7 => Some(Opcode::Shl {
+                    dst: decode_register(b)?,
+                    src: decode_register(c)?,
+                }),
                 _ => None,
             }
         }
@@ -231,6 +239,28 @@ mod tests {
         assert_eq!(
             decode(0x1501),
             Some(Opcode::Xor {
+                dst: Register::R0,
+                src: Register::R1,
+            })
+        );
+    }
+
+    #[test]
+    fn test_parse_shr() {
+        assert_eq!(
+            decode(0x1601),
+            Some(Opcode::Shr {
+                dst: Register::R0,
+                src: Register::R1,
+            })
+        );
+    }
+
+    #[test]
+    fn test_parse_shl() {
+        assert_eq!(
+            decode(0x1701),
+            Some(Opcode::Shl {
                 dst: Register::R0,
                 src: Register::R1,
             })

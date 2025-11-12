@@ -23,6 +23,11 @@
     MOV { dst: register } { src: register } => 0x10 @ dst @ src
     ADD { dst: register } { src: register } => 0x11 @ dst @ src
     SUB { dst: register } { src: register } => 0x12 @ dst @ src
+    AND { dst: register } { src: register } => 0x13 @ dst @ src
+    OR { dst: register } { src: register } => 0x14 @ dst @ src
+    XOR { dst: register } { src: register } => 0x15 @ dst @ src
+    SHR { dst: register } { src: register } => 0x16 @ dst @ src
+    SHL { dst: register } { src: register } => 0x17 @ dst @ src
     LDI { dst: register } { value: u8 } => 0x2 @ dst @ value
     JMP { addr: u12 } => 0x3 @ addr
     JZ { addr: u12 } => 0x4 @ addr

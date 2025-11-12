@@ -184,6 +184,16 @@ Virtual machine handles the following opcodes:
         <td>Put the result of logical XOR of A and B registers into A register</td>
     </tr>
     <tr>
+        <td>SHR dst</td>
+        <td>0x16AB</td>
+        <td>Shift A register right by count of bits stored in B register</td>
+    </tr>
+    <tr>
+        <td>SHL dst</td>
+        <td>0x17AB</td>
+        <td>Shift A register left by count of bits stored in B register</td>
+    </tr>
+    <tr>
         <td colspan="3">0x2 LDI</td>
     </tr>
     <tr>

@@ -54,6 +54,16 @@ pub enum Opcode {
         dst: Register,
         src: Register,
     },
+    /// Shift `dst` right by `src` bits and store the result in `dst`.
+    Shr {
+        dst: Register,
+        src: Register,
+    },
+    /// Shift `dst` left by `src` bits and store the result in `dst`.
+    Shl {
+        dst: Register,
+        src: Register,
+    },
 
     /* Load */
     Ldi {

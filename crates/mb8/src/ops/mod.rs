@@ -13,6 +13,8 @@ mod or;
 mod pop;
 mod push;
 mod ret;
+mod shl;
+mod shr;
 mod st;
 mod sub;
 mod sys;
