@@ -39,6 +39,21 @@ pub enum Opcode {
         dst: Register,
         src: Register,
     },
+    /// Logical AND `dst` and `src1` and store the result in `dst`.
+    And {
+        dst: Register,
+        src: Register,
+    },
+    /// Logical OR `dst` and `src1` and store the result in `dst`.
+    Or {
+        dst: Register,
+        src: Register,
+    },
+    /// Logical XOR `dst` and `src1` and store the result in `dst`.
+    Xor {
+        dst: Register,
+        src: Register,
+    },
 
     /* Load */
     Ldi {

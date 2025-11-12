@@ -50,6 +50,30 @@ fn test_round_trip() {
         assert_eq!(decode(bin), Some(opcode));
     }
     {
+        let opcode = Opcode::And {
+            dst: Register::R0,
+            src: Register::R1,
+        };
+        let bin = encode(&opcode);
+        assert_eq!(decode(bin), Some(opcode));
+    }
+    {
+        let opcode = Opcode::Or {
+            dst: Register::R0,
+            src: Register::R1,
+        };
+        let bin = encode(&opcode);
+        assert_eq!(decode(bin), Some(opcode));
+    }
+    {
+        let opcode = Opcode::Xor {
+            dst: Register::R0,
+            src: Register::R1,
+        };
+        let bin = encode(&opcode);
+        assert_eq!(decode(bin), Some(opcode));
+    }
+    {
         let opcode = Opcode::Ldi {
             dst: Register::R0,
             value: 0x12,

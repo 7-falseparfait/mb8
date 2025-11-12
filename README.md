@@ -169,6 +169,21 @@ Virtual machine handles the following opcodes:
         <td>Put the difference of A and B registers into A register</td>
     </tr>
     <tr>
+        <td>AND dst src</td>
+        <td>0x13AB</td>
+        <td>Put the result of logical AND of A and B registers into A register</td>
+    </tr>
+    <tr>
+        <td>OR dst src</td>
+        <td>0x14AB</td>
+        <td>Put the result of logical OR of A and B registers into A register</td>
+    </tr>
+    <tr>
+        <td>XOR dst src</td>
+        <td>0x15AB</td>
+        <td>Put the result of logical XOR of A and B registers into A register</td>
+    </tr>
+    <tr>
         <td colspan="3">0x2 LDI</td>
     </tr>
     <tr>

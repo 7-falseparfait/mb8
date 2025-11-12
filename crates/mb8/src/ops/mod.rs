@@ -1,4 +1,5 @@
 mod add;
+mod and;
 mod call;
 mod halt;
 mod jmp;
@@ -8,9 +9,11 @@ mod ld;
 mod ldi;
 mod mov;
 mod nop;
+mod or;
 mod pop;
 mod push;
 mod ret;
 mod st;
 mod sub;
 mod sys;
+mod xor;
