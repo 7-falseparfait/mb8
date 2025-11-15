@@ -1,3 +1,19 @@
+#bankdef rom
+{
+    #addr 0x0000
+    #size 0x1000
+    #outp 0
+    #fill
+}
+
+#bankdef ram
+{
+    #addr 0x0000
+    #size 0x0E00
+    #outp 8 * 0x1000
+    #fill
+}
+
 #subruledef register
 {
     R0 => 0x0

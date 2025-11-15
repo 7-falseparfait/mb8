@@ -18,14 +18,17 @@ fn run_vm(file: PathBuf) {
     };
 
     let mut vm = vm::VirtualMachine::default();
-    vm.load_rom(&source);
+    vm.load_mem(&source);
 
+    let mut i = 0;
     while !vm.halted && window.is_open() {
         vm.step();
 
-        if !vm.redraw {
+        i += 1;
+        if !vm.redraw && i <= 120 {
             continue;
         }
+        i = 0;
 
         let gfx = vm.mem.graphic_buffer();
 

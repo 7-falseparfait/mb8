@@ -1,86 +1,61 @@
 #include "../asm/cpu.asm"
 #include "../asm/ext.asm"
 
+M_ADDR = 0x0100
+B_ADDR = 0x0200
+EIGHT_ADDR = 0x0300
+
+Y = 13
+X_SPACE = 7
+SPRITE_HEIGHT = 5
+
+#bank ram
+
+#addr M_ADDR
+M_LETTER:
+    #d8 0b0100_0100
+    #d8 0b0111_1100
+    #d8 0b0101_0100
+    #d8 0b0100_0100
+    #d8 0b1110_1110
+#addr B_ADDR
+B_LETTER:
+    #d8 0b0111_1100
+    #d8 0b0100_0010
+    #d8 0b0101_1100
+    #d8 0b0100_0010
+    #d8 0b0111_1100
+#addr EIGHT_ADDR
+EIGHT_LETTER:
+    #d8 0b0001_1000
+    #d8 0b0110_0110
+    #d8 0b0011_1100
+    #d8 0b0110_0110
+    #d8 0b0001_1000
+
+#bank rom
+
 start:
 .init:
-    ; Initialize sprites
-    LDI R0 1
-    ; M symbol
-    LDI_I 0x100
-    LDI R7 0b0000_0000
-    ST R7
-    INC_I R0
-    LDI R7 0b0100_0100
-    ST R7
-    INC_I R0
-    LDI R7 0b0111_1100
-    ST R7
-    INC_I R0
-    LDI R7 0b0101_0100
-    ST R7
-    INC_I R0
-    LDI R7 0b0100_0100
-    ST R7
-    INC_I R0
-    LDI R7 0b1110_1110
-    ST R7
-    INC_I R0
-    ; B symbol
-    LDI_I 0x200
-    LDI R7 0b00000000
-    ST R7
-    INC_I R0
-    LDI R7 0b01111100
-    ST R7
-    INC_I R0
-    LDI R7 0b01000010
-    ST R7
-    INC_I R0
-    LDI R7 0b01011100
-    ST R7
-    INC_I R0
-    LDI R7 0b01000010
-    ST R7
-    INC_I R0
-    LDI R7 0b01111100
-    ST R7
-    INC_I R0
-    ; 8 symbol
-    LDI_I 0x300
-    LDI R7 0b00000000
-    ST R7
-    INC_I R0
-    LDI R7 0b00011000
-    ST R7
-    INC_I R0
-    LDI R7 0b01100110
-    ST R7
-    INC_I R0
-    LDI R7 0b00111100
-    ST R7
-    INC_I R0
-    LDI R7 0b01100110
-    ST R7
-    INC_I R0
-    LDI R7 0b00011000
-    ST R7
-    INC_I R0
+    LDI R1 Y
+    LDI R0 0 ; Start X
+    CALL .draw
+.step:
+    CALL .draw
+    DEC R0 1
+    CALL .draw
+    JMP .step
 .draw:
     ; Draw M symbol
-    LDI R0 22
-    LDI R1 13
-    LDI_I 0x100
-    DRAW R0 R1 6
+    MOV R3 R0
+    LDI_I M_ADDR
+    DRAW R3 R1 SPRITE_HEIGHT
     ; Draw B symbol
-    LDI R0 29
-    LDI R1 13
-    LDI_I 0x200
-    DRAW R0 R1 6
+    INC R3 X_SPACE
+    LDI_I B_ADDR
+    DRAW R3 R1 SPRITE_HEIGHT
     ; Draw 8 symbol
-    LDI R0 36
-    LDI R1 13
-    LDI_I 0x300
-    DRAW R0 R1 6
-.loop:
-    ; Loop forever
-    JMP .loop
+    INC R3 X_SPACE
+    LDI_I EIGHT_ADDR
+    DRAW R3 R1 SPRITE_HEIGHT
+    RET

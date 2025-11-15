@@ -6,6 +6,14 @@
 #include "../asm/cpu.asm"
 #include "../asm/ext.asm"
 
+#bank ram
+
+#addr 0x0000
+RECT:
+    #d8 0b1111_1111
+
+#bank rom
+
 WIDTH = 64
 HEIGHT = 32
 X_DIRECTION_RIGHT = 0
@@ -23,9 +31,7 @@ start:
     LDI R2 0x8                  ; Y
     LDI R3 X_DIRECTION_RIGHT    ; X-Direction (1 - right, 2 - left)
     LDI R4 Y_DIRECTION_UP       ; Y-Direction (3 - up, 4 - down)
-    LDI R7 0b1111_1111          ; Single pixel
-    LDI_I 0x123                 ; Sprite data pointer
-    ST R7                       ; Store sprite data pointer
+    LDI_I 0x000                 ; Sprite data pointer
 .move:
     CALL x_move
     CALL y_move

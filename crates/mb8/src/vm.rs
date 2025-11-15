@@ -15,11 +15,22 @@ pub struct VirtualMachine {
 }
 
 impl VirtualMachine {
-    /// Load memory into the virtual machine.
     pub fn load_rom(&mut self, data: &[u8]) {
-        for (i, &byte) in data.iter().enumerate() {
-            self.mem.rom().write(i as u16, byte);
+        for (i, value) in data.iter().enumerate() {
+            self.mem.rom().write(i as u16, *value);
         }
+    }
+
+    pub fn load_ram(&mut self, data: &[u8]) {
+        for (i, value) in data.iter().enumerate() {
+            self.mem.general().write(i as u16, *value);
+        }
+    }
+
+    /// Load memory into the virtual machine.
+    pub fn load_mem(&mut self, data: &[u8]) {
+        self.load_rom(&data[0..4096]);
+        self.load_ram(&data[4096..]);
     }
 
     /// Execute a single instruction.
