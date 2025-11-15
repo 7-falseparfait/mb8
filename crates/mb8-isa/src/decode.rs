@@ -104,10 +104,16 @@ pub fn decode(instruction: u16) -> Option<Opcode> {
         0x5 => Some(Opcode::Jnz {
             addr: (a << 8) | (b << 4) | c,
         }),
-        0x6 => Some(Opcode::Call {
+        0x6 => Some(Opcode::Jc {
             addr: (a << 8) | (b << 4) | c,
         }),
-        0x7 => {
+        0x7 => Some(Opcode::Jnc {
+            addr: (a << 8) | (b << 4) | c,
+        }),
+        0x8 => Some(Opcode::Call {
+            addr: (a << 8) | (b << 4) | c,
+        }),
+        0x9 => {
             // Stack operations
             match a {
                 0x0 => Some(Opcode::Ret),
@@ -120,10 +126,10 @@ pub fn decode(instruction: u16) -> Option<Opcode> {
                 _ => None,
             }
         }
-        0x8 => Some(Opcode::LdiI {
+        0xA => Some(Opcode::LdiI {
             value: (a << 8) | (b << 4) | c,
         }),
-        0x9 => {
+        0xB => {
             // Memory operations
             match a {
                 0x0 => Some(Opcode::Ld {
@@ -141,7 +147,7 @@ pub fn decode(instruction: u16) -> Option<Opcode> {
                 _ => None,
             }
         }
-        0xA => Some(Opcode::Draw {
+        0xC => Some(Opcode::Draw {
             x: decode_register(a)?,
             y: decode_register(b)?,
             height: c as u8,
@@ -178,7 +184,7 @@ mod tests {
         // reg-reg instructions
         assert_eq!(decode(0x1F00), None);
         // stack instructions
-        assert_eq!(decode(0x7F00), None);
+        assert_eq!(decode(0x9F00), None);
     }
 
     #[test]
@@ -317,54 +323,64 @@ mod tests {
     }
 
     #[test]
+    fn test_parse_jc() {
+        assert_eq!(decode(0x6123), Some(Opcode::Jc { addr: 0x123 }));
+    }
+
+    #[test]
+    fn test_parse_jnc() {
+        assert_eq!(decode(0x7123), Some(Opcode::Jnc { addr: 0x123 }));
+    }
+
+    #[test]
     fn test_parse_call() {
-        assert_eq!(decode(0x6123), Some(Opcode::Call { addr: 0x123 }));
+        assert_eq!(decode(0x8123), Some(Opcode::Call { addr: 0x123 }));
     }
 
     #[test]
     fn test_parse_ret() {
-        assert_eq!(decode(0x7000), Some(Opcode::Ret));
+        assert_eq!(decode(0x9000), Some(Opcode::Ret));
     }
 
     #[test]
     fn test_parse_push() {
-        assert_eq!(decode(0x7110), Some(Opcode::Push { src: Register::R1 }));
+        assert_eq!(decode(0x9110), Some(Opcode::Push { src: Register::R1 }));
     }
 
     #[test]
     fn test_parse_pop() {
-        assert_eq!(decode(0x7210), Some(Opcode::Pop { dst: Register::R1 }));
+        assert_eq!(decode(0x9210), Some(Opcode::Pop { dst: Register::R1 }));
     }
 
     #[test]
     fn test_parse_ldi_i() {
-        assert_eq!(decode(0x8123), Some(Opcode::LdiI { value: 0x123 }));
+        assert_eq!(decode(0xA123), Some(Opcode::LdiI { value: 0x123 }));
     }
 
     #[test]
     fn test_parse_ld() {
-        assert_eq!(decode(0x9010), Some(Opcode::Ld { dst: Register::R1 }));
+        assert_eq!(decode(0xB010), Some(Opcode::Ld { dst: Register::R1 }));
     }
 
     #[test]
     fn test_parse_st() {
-        assert_eq!(decode(0x9110), Some(Opcode::St { src: Register::R1 }));
+        assert_eq!(decode(0xB110), Some(Opcode::St { src: Register::R1 }));
     }
 
     #[test]
     fn test_parse_inc_i() {
-        assert_eq!(decode(0x9210), Some(Opcode::IncI { src: Register::R1 }));
+        assert_eq!(decode(0xB210), Some(Opcode::IncI { src: Register::R1 }));
     }
 
     #[test]
     fn test_parse_dec_i() {
-        assert_eq!(decode(0x9310), Some(Opcode::DecI { src: Register::R1 }));
+        assert_eq!(decode(0xB310), Some(Opcode::DecI { src: Register::R1 }));
     }
 
     #[test]
     fn test_parse_draw() {
         assert_eq!(
-            decode(0xA123),
+            decode(0xC123),
             Some(Opcode::Draw {
                 x: Register::R1,
                 y: Register::R2,

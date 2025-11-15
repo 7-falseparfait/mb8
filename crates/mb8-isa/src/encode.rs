@@ -91,37 +91,39 @@ pub fn encode(opcode: &Opcode) -> u16 {
         Opcode::Jmp { addr } => 0x3000 | (*addr & 0xFFF),
         Opcode::Jz { addr } => 0x4000 | (*addr & 0xFFF),
         Opcode::Jnz { addr } => 0x5000 | (*addr & 0xFFF),
-        Opcode::Call { addr } => 0x6000 | (*addr & 0xFFF),
-        Opcode::Ret => 0x7000,
+        Opcode::Jc { addr } => 0x6000 | (addr & 0xFFF),
+        Opcode::Jnc { addr } => 0x7100 | (addr & 0xFFF),
+        Opcode::Call { addr } => 0x8000 | (*addr & 0xFFF),
+        Opcode::Ret => 0x9000,
         Opcode::Push { src } => {
-            let src = encode_register(*src);
-            0x7100 | (src as u16) << 4
-        }
-        Opcode::Pop { dst } => {
-            let dst = encode_register(*dst);
-            0x7200 | (dst as u16) << 4
-        }
-        Opcode::LdiI { value } => 0x8000 | (*value & 0xFFF),
-        Opcode::Ld { dst } => {
-            let dst = encode_register(*dst);
-            0x9000 | (dst as u16) << 4
-        }
-        Opcode::St { src } => {
             let src = encode_register(*src);
             0x9100 | (src as u16) << 4
         }
+        Opcode::Pop { dst } => {
+            let dst = encode_register(*dst);
+            0x9200 | (dst as u16) << 4
+        }
+        Opcode::LdiI { value } => 0xA000 | (*value & 0xFFF),
+        Opcode::Ld { dst } => {
+            let dst = encode_register(*dst);
+            0xB000 | (dst as u16) << 4
+        }
+        Opcode::St { src } => {
+            let src = encode_register(*src);
+            0xB100 | (src as u16) << 4
+        }
         Opcode::IncI { src } => {
             let src = encode_register(*src);
-            0x9200 | (src as u16) << 4
+            0xB200 | (src as u16) << 4
         }
         Opcode::DecI { src } => {
             let src = encode_register(*src);
-            0x9300 | (src as u16) << 4
+            0xB300 | (src as u16) << 4
         }
         Opcode::Draw { x, y, height } => {
             let x = encode_register(*x);
             let y = encode_register(*y);
-            0xA000 | (x as u16) << 8 | (y as u16) << 4 | (*height & 0xF) as u16
+            0xC000 | (x as u16) << 8 | (y as u16) << 4 | (*height & 0xF) as u16
         }
     }
 }
@@ -287,48 +289,58 @@ mod tests {
     }
 
     #[test]
+    fn test_encode_jc() {
+        assert_eq!(encode(&Opcode::Jc { addr: 0x123 }), 0x6123);
+    }
+
+    #[test]
+    fn test_encode_jnc() {
+        assert_eq!(encode(&Opcode::Jnc { addr: 0x123 }), 0x7123);
+    }
+
+    #[test]
     fn test_encode_call() {
-        assert_eq!(encode(&Opcode::Call { addr: 0x123 }), 0x6123);
+        assert_eq!(encode(&Opcode::Call { addr: 0x123 }), 0x8123);
     }
 
     #[test]
     fn test_encode_ret() {
-        assert_eq!(encode(&Opcode::Ret), 0x7000);
+        assert_eq!(encode(&Opcode::Ret), 0x9000);
     }
 
     #[test]
     fn test_encode_push() {
-        assert_eq!(encode(&Opcode::Push { src: Register::R1 }), 0x7110);
+        assert_eq!(encode(&Opcode::Push { src: Register::R1 }), 0x9110);
     }
 
     #[test]
     fn test_encode_pop() {
-        assert_eq!(encode(&Opcode::Pop { dst: Register::R1 }), 0x7210);
+        assert_eq!(encode(&Opcode::Pop { dst: Register::R1 }), 0x9210);
     }
 
     #[test]
     fn test_encode_ldi_i() {
-        assert_eq!(encode(&Opcode::LdiI { value: 0x123 }), 0x8123);
+        assert_eq!(encode(&Opcode::LdiI { value: 0x123 }), 0xA123);
     }
 
     #[test]
     fn test_encode_ld() {
-        assert_eq!(encode(&Opcode::Ld { dst: Register::R1 }), 0x9010);
+        assert_eq!(encode(&Opcode::Ld { dst: Register::R1 }), 0xB010);
     }
 
     #[test]
     fn test_encode_st() {
-        assert_eq!(encode(&Opcode::St { src: Register::R1 }), 0x9110);
+        assert_eq!(encode(&Opcode::St { src: Register::R1 }), 0xB110);
     }
 
     #[test]
     fn test_encode_inc_i() {
-        assert_eq!(encode(&Opcode::IncI { src: Register::R1 }), 0x9210);
+        assert_eq!(encode(&Opcode::IncI { src: Register::R1 }), 0xB210);
     }
 
     #[test]
     fn test_encode_dec_i() {
-        assert_eq!(encode(&Opcode::DecI { src: Register::R1 }), 0x9310);
+        assert_eq!(encode(&Opcode::DecI { src: Register::R1 }), 0xB310);
     }
 
     #[test]
@@ -339,7 +351,7 @@ mod tests {
                 y: Register::R2,
                 height: 0x3
             }),
-            0xA123
+            0xC123
         );
     }
 }

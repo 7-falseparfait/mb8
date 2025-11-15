@@ -49,14 +49,16 @@
     JMP { addr: u12 } => 0x3 @ addr
     JZ { addr: u12 } => 0x4 @ addr
     JNZ { addr: u12 } => 0x5 @ addr
-    CALL { label: u12 } => 0x6 @ label
-    RET => 0x7000
-    PUSH { src: register } => 0x71 @ src @ 0x0
-    POP { dst: register } => 0x72 @ dst @ 0x0
-    LDI_I { addr: u12 } => 0x8 @ addr
-    LD { dst: register } => 0x90 @ dst @ 0x0
-    ST { src: register } => 0x91 @ src @ 0x0
-    INC_I { src: register } => 0x92 @ src @ 0x0
-    DEC_I { src: register } => 0x93 @ src @ 0x0
-    DRAW { x: register } { y: register } { height: u4 } => 0xA @ x @ y @ height
+    JC { addr: u12 } => 0x6 @ addr
+    JNC { addr: u12 } => 0x7 @ addr
+    CALL { label: u12 } => 0x8 @ label
+    RET => 0x9000
+    PUSH { src: register } => 0x91 @ src @ 0x0
+    POP { dst: register } => 0x92 @ dst @ 0x0
+    LDI_I { addr: u12 } => 0xA @ addr
+    LD { dst: register } => 0xB0 @ dst @ 0x0
+    ST { src: register } => 0xB1 @ src @ 0x0
+    INC_I { src: register } => 0xB2 @ src @ 0x0
+    DEC_I { src: register } => 0xB3 @ src @ 0x0
+    DRAW { x: register } { y: register } { height: u4 } => 0xC @ x @ y @ height
 }

@@ -113,6 +113,16 @@ fn test_round_trip() {
         assert_eq!(decode(bin), Some(opcode));
     }
     {
+        let opcode = Opcode::Jc { addr: 0x123 };
+        let bin = encode(&opcode);
+        assert_eq!(decode(bin), Some(opcode));
+    }
+    {
+        let opcode = Opcode::Jnc { addr: 0x123 };
+        let bin = encode(&opcode);
+        assert_eq!(decode(bin), Some(opcode));
+    }
+    {
         let opcode = Opcode::Call { addr: 0x123 };
         let bin = encode(&opcode);
         assert_eq!(decode(bin), Some(opcode));

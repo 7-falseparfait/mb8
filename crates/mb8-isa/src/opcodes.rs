@@ -84,6 +84,15 @@ pub enum Opcode {
     Jnz {
         addr: u16,
     },
+    /// Jump to address `addr` if flag register has carry flag
+    Jc {
+        addr: u16,
+    },
+    /// Jump to address `addr` if flag register does not have carry flag
+    Jnc {
+        addr: u16,
+    },
+
     /* Stack instructions */
     /// Call subroutine at address `addr`.
     Call {

@@ -209,7 +209,7 @@ Virtual machine handles the following opcodes:
         <td>Load immediate XX value into A register</td>
     </tr>
     <tr>
-        <td colspan="3">0x3 - 0x5 JUMP GROUP: Jump instructions</td>
+        <td colspan="3">0x3 - 0x7 JUMP GROUP: Jump instructions</td>
     </tr>
     <tr>
         <td>JMP addr</td>
@@ -227,26 +227,36 @@ Virtual machine handles the following opcodes:
         <td>Jump to XXX address if Flag register does not have zero flag</td>
     </tr>
     <tr>
+        <td>JC addr</td>
+        <td>0x6XXX</td>
+        <td>Jump to XXX address if Flag register has carry flag</td>
+    </tr>
+    <tr>
+        <td>JNC addr</td>
+        <td>0x7XXX</td>
+        <td>Jump to XXX address if Flag register does not have carry flag</td>
+    </tr>
+    <tr>
         <td colspan="3">0x6 - 0x7 STACK: Stack and subroutine operations</td>
     </tr>
     <tr>
         <td>CALL addr</td>
-        <td>0x6XXX</td>
+        <td>0x8XXX</td>
         <td>Call subroutine at XXX address</td>
     </tr>
     <tr>
         <td>RET</td>
-        <td>0x7000</td>
+        <td>0x9000</td>
         <td>Return from subroutine</td>
     </tr>
     <tr>
         <td>PUSH dst</td>
-        <td>0x71A0</td>
+        <td>0x91A0</td>
         <td>Push data from A register onto stack</td>
     </tr>
     <tr>
         <td>POP src</td>
-        <td>0x72A0</td>
+        <td>0x92A0</td>
         <td>Pop data from stack into A register</td>
     </tr>
     <tr>
@@ -254,27 +264,27 @@ Virtual machine handles the following opcodes:
     </tr>
     <tr>
         <td>LDI_I addr</td>
-        <td>0x8XXX</td>
+        <td>0xAXXX</td>
         <td>Load address XXX into I register</td>
     </tr>
     <tr>
         <td>LD src</td>
-        <td>0x90A0</td>
+        <td>0xB0A0</td>
         <td>Load data from memory address stored in I register into A register</td>
     </tr>
     <tr>
         <td>ST src</td>
-        <td>0x91A0</td>
+        <td>0xB1A0</td>
         <td>Store data from A register into memory address stored in I register</td>
     </tr>
     <tr>
         <td>INC_I src</td>
-        <td>0x92A0</td>
+        <td>0xB2A0</td>
         <td>Increment memory address stored in I register by value in A register</td>
     </tr>
     <tr>
         <td>DEC_I src</td>
-        <td>0x93A0</td>
+        <td>0xB3A0</td>
         <td>Decrement memory address stored in I register by value in A register</td>
     </tr>
     <tr>
@@ -282,7 +292,7 @@ Virtual machine handles the following opcodes:
     </tr>
     <tr>
         <td>DRAW x y height</td>
-        <td>0xA000</td>
+        <td>0xC000</td>
         <td>Draw sprite at (x, y) with height height. Sprite is stored in memory starting at address stored in I register. Sprite is drawn using XOR operation. If sprite overlaps with existing pixels, it will invert the color of those pixels.</td>
     </tr>
 </table>

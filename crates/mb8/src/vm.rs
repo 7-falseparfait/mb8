@@ -51,6 +51,8 @@ impl VirtualMachine {
             Opcode::Jmp { addr } => self.jmp(*addr),
             Opcode::Jz { addr } => self.jz(*addr),
             Opcode::Jnz { addr } => self.jnz(*addr),
+            Opcode::Jc { addr } => self.jc(*addr),
+            Opcode::Jnc { addr } => self.jnc(*addr),
             Opcode::Call { addr } => self.call(*addr),
             Opcode::Ret => self.ret(),
             Opcode::Push { src } => self.push(*src),

@@ -12,7 +12,7 @@
 
     ; Relative jump to address PC + offset
     JMPR { offset: u16 } => {
-        addr = offset + $
+        addr = offset + $ + 2
         asm {
             JMP {addr}
         }
