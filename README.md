@@ -34,9 +34,7 @@ cargo run <file.bin>
 
 You can see examples of assembly code in the [`examples`](examples) directory.
 
-- [`counter.asm`](examples/counter.asm) - A simple counter program that increments a register from 0x10 to 0xFF and halts.
-- [`stack_overflow.asm`](examples/stack_overflow.asm) - A program that demonstrates a stack overflow.
-- [`subroutines.asm`](examples/subroutines.asm) - A program that demonstrates a subroutine call.
+- [`bouncing.asm`](examples/bouncing.asm) - Bouncing example
 
 You can compile any of them and run them using the following commands:
 

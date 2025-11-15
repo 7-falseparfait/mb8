@@ -21,7 +21,6 @@ fn run_vm(file: PathBuf) {
     vm.load_rom(&source);
 
     while !vm.halted && window.is_open() {
-        // terminal
         vm.step();
 
         let gfx = vm.mem.graphic_buffer();
@@ -30,9 +29,9 @@ fn run_vm(file: PathBuf) {
             for x in 0..64 {
                 let index = y as usize * 64 + x as usize;
                 if gfx.get_pixel(x, y) {
-                    buf[index] = 0xFFFF_FFFF;
+                    buf[index] = 0x006a_bfc6;
                 } else {
-                    buf[index] = 0x0000_0000;
+                    buf[index] = 0x0050_459b;
                 }
             }
         }
