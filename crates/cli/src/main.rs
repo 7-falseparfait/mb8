@@ -23,6 +23,10 @@ fn run_vm(file: PathBuf) {
     while !vm.halted && window.is_open() {
         vm.step();
 
+        if !vm.redraw {
+            continue;
+        }
+
         let gfx = vm.mem.graphic_buffer();
 
         for y in 0..32 {

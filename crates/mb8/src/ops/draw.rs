@@ -8,6 +8,7 @@ impl VirtualMachine {
     const BYTES_PER_ROW: u16 = Self::SCREEN_WIDTH / 8; // 8
 
     pub fn draw(&mut self, x_reg: Register, y_reg: Register, height: u8) {
+        self.redraw = true;
         let sprite_addr = self.registers.read(Register::I);
         let x0 = self.registers.read(x_reg);
         let y0 = self.registers.read(y_reg);

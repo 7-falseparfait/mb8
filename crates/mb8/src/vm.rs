@@ -11,6 +11,7 @@ pub struct VirtualMachine {
     pub mem: Memory,
     pub registers: Registers,
     pub halted: bool,
+    pub redraw: bool,
 }
 
 impl VirtualMachine {
@@ -53,6 +54,7 @@ impl VirtualMachine {
     }
 
     pub fn step(&mut self) {
+        self.redraw = false;
         let pc = self.registers.read(Register::PC);
         self.registers.write(Register::PC, pc.saturating_add(2));
 
