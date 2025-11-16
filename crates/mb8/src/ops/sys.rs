@@ -23,7 +23,7 @@ impl VirtualMachine {
                 self.switch_context(Role::Bot(bot_id as u8));
             }
             Role::Bot(_id) => {
-                self.registers.switch_context(Role::Judge);
+                self.switch_context(Role::Judge);
             }
         }
     }

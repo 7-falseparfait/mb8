@@ -109,7 +109,7 @@ impl VirtualMachine {
             return;
         };
 
-        println!("{pc}:\t({binary_instruction:?})");
+        println!("{pc}:\t({binary_instruction:?})\t{:?}", self.role);
         println!("{opcode:?}");
         println!("{}", self.registers);
         println!("=");

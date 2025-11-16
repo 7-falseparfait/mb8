@@ -38,6 +38,14 @@ impl Registers {
         };
         context.read(register)
     }
+
+    pub fn clear(&mut self) {
+        let context = match self.current_context {
+            Role::Judge => &mut self.host,
+            Role::Bot(id) => &mut self.bots[id as usize],
+        };
+        *context = RegistersContext::default();
+    }
 }
 
 impl Display for Registers {
