@@ -3,6 +3,10 @@
 ; They are NOT implemented by the VM itself and may modify registers or stack.
 ; Use with care.
 
+#once
+
+#include "isa.asm"
+
 #ruledef mb8_isa_ext
 {
     LDI { rh: register } { rl: register } { addr: u16 } => {
@@ -25,14 +29,35 @@
         }
     }
 
+    JMP { addr: u16 } => {
+        hi = addr >> 8;
+        lo = addr & 0xFF;
+        asm {
+            LDI R6 {hi}
+            LDI R7 {lo}
+            JMP R6 R7
+        }
+    }
+
     JR { addr: u16 } => {
         offset = addr - $ - 2
+        assert(offset <= 127)
+        assert(offset >= -128)
         0x31 @ offset`8
     }
 
     JZR { addr: u16 } => {
         offset = addr - $ - 2
+        assert(offset <= 127)
+        assert(offset >= -128)
         0x32 @ offset`8
+    }
+
+    JNZR { addr: u16 } => {
+        offset = addr - $ - 2
+        assert(offset <= 127)
+        assert(offset >= -128)
+        0x33 @ offset`8
     }
 
     ; Clear register value
@@ -42,20 +67,34 @@
 
     ; Increment register value by a given immediate value
     ; WARNING: This macro may modify the stack pointer.
-    INC { reg: register } { val: u8 } => asm {
+    INC { reg: register } => asm {
         PUSH R7
-        LDI R7 {val}
+        LDI R7 1
         ADD {reg} R7
         POP R7
     }
 
     ; Decrement register value by a given immediate value
     ; WARNING: This macro may modify the stack pointer.
-    DEC { reg: register } { val: u8 } => asm {
+    DEC { reg: register } => asm {
         PUSH R7
-        LDI R7 {val}
+        LDI R7 1
         SUB {reg} R7
         POP R7
+    }
+
+    ; Increment register pair as 16 bit value
+    ; WARNING: This macro may modify the stack pointer.
+    INC16 { hi: register } { lo: register } => asm {
+        CMPI {lo} 0xFF
+        JZR inc_hi
+        INC {lo}
+        JR end
+        inc_hi:
+        LDI {lo} 0
+        INC {hi}
+        end:
+        NOP
     }
 
     ; Negate register value
@@ -101,4 +140,16 @@
         MOV {reg1} {reg2}
         POP {reg2}
     }
+
+    MUL { dst: register } { a: register } { b: register } => asm {
+        ZERO {dst}
+        PUSH {b}
+        iter:
+            ADD {dst} {a}
+            DEC {b}
+            CMPI {b} 0
+            JNZR iter
+        POP {b}
+    }
+
 }

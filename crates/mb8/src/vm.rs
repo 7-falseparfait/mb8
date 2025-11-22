@@ -16,7 +16,7 @@ impl VirtualMachine {
         match instruction {
             Opcode::Nop => self.nop(),
             Opcode::Halt => self.halt(),
-            Opcode::Sys { syscall, src } => self.sys(*syscall, *src),
+            Opcode::Sys => self.sys(),
             Opcode::Mov { dst, src } => self.mov(*dst, *src),
             Opcode::Add { dst, src } => self.add(*dst, *src),
             Opcode::Sub { dst, src } => self.sub(*dst, *src),
@@ -54,9 +54,9 @@ impl VirtualMachine {
             return;
         };
 
-        // println!("{pc}:\t({binary_instruction:?})");
-        // println!("{opcode:?}");
-        // println!("{}", self.registers);
+        println!("{pc:X}:\t({binary_instruction:?})");
+        println!("{opcode:?}");
+        println!("{}", self.registers);
         // println!("=");
 
         self.execute(&opcode);
