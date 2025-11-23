@@ -9,7 +9,8 @@
 
 MicroBot-8bit is an 8-bit microcomputer in the vein of the ZX Spectrum/Commodore 64, originally inspired by CHIP-8. It comes with a tiny CP/M-like OS layer, a GPU TTY, keyboard input, and a disk-backed filesystem stub.
 
-<img width="752" height="620" alt="sh.bin" src="https://github.com/user-attachments/assets/99a3c7b2-007a-4187-a0b2-38f4b9bd97e2" />
+<img width="752" height="620" alt="sh.bin" src="https://github.com/user-attachments/assets/031623af-04b3-4f8b-af17-e47016aa03a4" />
+
 
 # Running
 
@@ -35,7 +36,7 @@ Targets:
 
 After building, run the VM with the kernel entrypoint first and then any user programs:
 ```
-cargo run -- run ./kernel/main.bin ./user/sh.bin ./user/hw.bin
+cargo run -- run ./kernel/main.bin ./user/sh.bin ./user/hw.bin ./user/ls.bin
 ```
 The first path is always the kernel; subsequent arguments are user-space binaries loaded by the OS.
 
@@ -43,7 +44,7 @@ The first path is always the kernel; subsequent arguments are user-space binarie
 
 User-space programs live under `user/`. For a minimal shell example, see `user/sh.asm`; build with `make user` and run with the kernel:
 ```
-cargo run -- run ./kernel/main.bin ./user/sh.bin ./user/hw.bin
+cargo run -- run ./kernel/main.bin ./user/sh.bin ./user/hw.bin ./user/ls.bin
 ```
 
 # Architecture
